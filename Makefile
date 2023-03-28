@@ -1,24 +1,23 @@
-PREFIX=/usr/local
-CC=cc
-CFLAGS=-Wall -Wextra -Werror -std=c99 -O3
+PREFIX := /usr/local
+CC := cc
 
-OUT=hello-world
+CFLAGS := -Wall -Wextra -Werror
+CFLAGS += -pedantic -std=c99 -O3
 
-SRCS=main.c
-OBJS=main.o
+OUT := hello-world
+
+SRC := main.c
+OBJ := $(SRC:.c=.o)
 
 all: $(OUT)
 
-$(OBJS): $(SRCS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(OUT): $(OBJS)
-	$(CC) -g -o $@ $<
+$(OUT): $(OBJ)
+	$(CC) -o $@ $< $(CFLAGS)
 
 install: $(OUT)
 	install -m 0755	$(OUT) $(PREFIX)/bin
 
 clean:
-	$(RM) $(OBJS) $(OUT)
+	$(RM) $(OBJ) $(OUT)
 
-.PHONY: install clean
+.PHONY: install clean all
